@@ -22,6 +22,7 @@ namespace Main.Player
 
         private void Start()
         {
+            AboveGroundEvent?.Invoke();
             _raycastChecker = this.UpdateAsObservable().Subscribe(x =>
             {
                 var isGrounded = Physics.Raycast(_bottomPoint.position, Vector3.down, _distance, _groundMask);
@@ -52,7 +53,7 @@ namespace Main.Player
         private void OnDrawGizmos()
         {
             Handles.color = Color.yellow;
-            Handles.DrawLine(_bottomPoint.position, _bottomPoint.position + (Vector3.down * _distance), 1f);
+            Handles.DrawLine(_bottomPoint.position, _bottomPoint.position + (-_bottomPoint.up.normalized * _distance), 1f);
         }
         
 #endif

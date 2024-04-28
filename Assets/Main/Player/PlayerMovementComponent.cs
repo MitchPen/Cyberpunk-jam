@@ -6,12 +6,15 @@ namespace Main.Player
 {
     public class PlayerMovementComponent : MonoBehaviour
     {
-        [SerializeField] private PlayerCameraComponent _cameraComponent;
+        [Header("General")]
+        [SerializeField] private PlayerCameraHolder _cameraHolder;
         [SerializeField] private GroundChecker _groundChecker;
         [SerializeField] private Rigidbody _rb;
-        [SerializeField] private float _maxMovementSpeed = 5f;
-        [SerializeField] private float _velocityMultiplier = 80f;
-        [SerializeField] private float _jumpForce = 5f;
+        [Header("Movement")]
+        [SerializeField] private float _maxMovementSpeed = 10f;
+        [SerializeField] private float _velocityMultiplier = 6f;
+        [Header("Jumping")]
+        [SerializeField] private float _jumpForce = 1.5f;
         [SerializeField] private float _airMultiplier = 0.3f;
         private float _horizontalInput;
         private float _verticalInput;
@@ -26,7 +29,19 @@ namespace Main.Player
             Application.targetFrameRate = 60;
         }
         
+        private void OnEnable()
+        {
+            _groundChecker.AboveGroundEvent += OnAboveGround;
+            _groundChecker.LandedGroundEvent += OnLandedGround;
+        }
 
+        private void OnDisable()
+        {
+            _groundChecker.AboveGroundEvent -= OnAboveGround;
+            _groundChecker.LandedGroundEvent -= OnLandedGround;
+        }
+        
+        
         private void FixedUpdate()
         {
             Move();
@@ -40,7 +55,6 @@ namespace Main.Player
             if (Input.GetKey(KeyCode.Space) && _groundChecker.IsGrounded && _isReadyToJump)
             {
                 Jump();
-                _groundChecker.LandedGroundEvent += OnLandedGround;
             }
             
             ValidateSpeed();
@@ -49,12 +63,10 @@ namespace Main.Player
 
         private void Move()
         {
-            var forwardVector =
-                Vector3.ProjectOnPlane(_cameraComponent.CurrentOrientation.forward, Vector3.up);
-            var rightVector = _cameraComponent.CurrentOrientation.right;
-            
+            _cameraHolder.GetCorrectedVectors(out Vector3 forwardVector, out Vector3 rightVector);
+
             var velocity =  ( forwardVector * _verticalInput +rightVector * _horizontalInput).normalized
-                             *_velocityMultiplier*Time.fixedDeltaTime;
+                            *_velocityMultiplier;
             
             if (_groundChecker.IsGrounded==false)
             {
@@ -81,24 +93,18 @@ namespace Main.Player
             _rb.drag = 0f;
 
             _rb.velocity = new Vector3(_rb.velocity.x, 0f, _rb.velocity.z);
-            _rb.AddForce(Vector3.up * _velocityMultiplier * _jumpForce *Time.fixedDeltaTime, ForceMode.Impulse);
+            _rb.AddForce(Vector3.up * _velocityMultiplier * _jumpForce, ForceMode.Impulse);
         }
 
         private void OnAboveGround()
         {
+            _rb.drag = 0f;
         }
 
         private void OnLandedGround()
         {
-            _groundChecker.LandedGroundEvent -= OnLandedGround;
             _rb.drag = _defaultDrag;
             _isReadyToJump = true;
-        }
-
-        private void OnDisable()
-        {
-            _groundChecker.AboveGroundEvent -= OnAboveGround;
-            _groundChecker.LandedGroundEvent -= OnLandedGround;
         }
     }
 }

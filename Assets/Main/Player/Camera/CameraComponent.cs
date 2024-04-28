@@ -1,10 +1,9 @@
-using System;
 using Cinemachine;
 using UnityEngine;
 
 namespace Main.Player.Camera
 {
-    public class PlayerCameraComponent : MonoBehaviour
+    public class CameraComponent : MonoBehaviour
     {
         public Transform CurrentOrientation => _camera.transform;
         
