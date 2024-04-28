@@ -8,7 +8,7 @@ namespace Main.Player
     {
         [Header("General")]
         [SerializeField] private PlayerCameraHolder _cameraHolder;
-        [SerializeField] private GroundChecker _groundChecker;
+        [SerializeField] private SurfaceChecker _surfaceChecker;
         [SerializeField] private Rigidbody _rb;
         [Header("Movement")]
         [SerializeField] private float _maxMovementSpeed = 10f;
@@ -16,10 +16,12 @@ namespace Main.Player
         [Header("Jumping")]
         [SerializeField] private float _jumpForce = 1.5f;
         [SerializeField] private float _airMultiplier = 0.3f;
+        [SerializeField] private float _gravity;
+
         private float _horizontalInput;
         private float _verticalInput;
         private float _defaultDrag;
-        private bool _isReadyToJump=true;
+        private bool _isInJump=true;
 
         private float deltatime;
         
@@ -31,16 +33,15 @@ namespace Main.Player
         
         private void OnEnable()
         {
-            _groundChecker.AboveGroundEvent += OnAboveGround;
-            _groundChecker.LandedGroundEvent += OnLandedGround;
+            _surfaceChecker.AboveGroundEvent += OnAboveGround;
+            _surfaceChecker.LandedGroundEvent += OnLandedGround;
         }
 
         private void OnDisable()
         {
-            _groundChecker.AboveGroundEvent -= OnAboveGround;
-            _groundChecker.LandedGroundEvent -= OnLandedGround;
+            _surfaceChecker.AboveGroundEvent -= OnAboveGround;
+            _surfaceChecker.LandedGroundEvent -= OnLandedGround;
         }
-        
         
         private void FixedUpdate()
         {
@@ -52,15 +53,18 @@ namespace Main.Player
             _horizontalInput = Input.GetAxisRaw("Horizontal");
             _verticalInput = Input.GetAxisRaw("Vertical");
             
-            if (Input.GetKey(KeyCode.Space) && _groundChecker.IsGrounded && _isReadyToJump)
+            if (Input.GetKey(KeyCode.Space) && _isInJump==false)
             {
-                Jump();
+                if (_surfaceChecker.ValidateSpaceAbove())
+                {
+                    Jump();
+                }
             }
-            
-            ValidateSpeed();
-            Debug.LogWarning(1/Time.deltaTime);
-        }
 
+            ValidateSpeed();
+            // Debug.LogWarning(1/Time.deltaTime);
+        }
+        
         private void Move()
         {
             _cameraHolder.GetCorrectedVectors(out Vector3 forwardVector, out Vector3 rightVector);
@@ -68,12 +72,18 @@ namespace Main.Player
             var velocity =  ( forwardVector * _verticalInput +rightVector * _horizontalInput).normalized
                             *_velocityMultiplier;
             
-            if (_groundChecker.IsGrounded==false)
+            if (_surfaceChecker.IsGrounded==false || _isInJump)
             {
                 velocity *= _airMultiplier;
+                
+                float yVelocityByDrag = _rb.velocity.y * _rb.drag;
+                float dragCoef = (1 - Time.deltaTime * _rb.drag);
+                
+                _rb.AddForce(new Vector3 (0, ((yVelocityByDrag + _gravity) / dragCoef) * _rb.mass, 0));
             }
 
-            _rb.AddForce(velocity,ForceMode.Impulse);
+            var finalVelocity = Vector3.ProjectOnPlane(velocity, _surfaceChecker.CurrentNormal);
+            _rb.AddForce(finalVelocity,ForceMode.Impulse);
         }
 
         private void ValidateSpeed()
@@ -89,8 +99,7 @@ namespace Main.Player
 
         private void Jump()
         {
-            _isReadyToJump = false;
-            _rb.drag = 0f;
+            _isInJump = true;
 
             _rb.velocity = new Vector3(_rb.velocity.x, 0f, _rb.velocity.z);
             _rb.AddForce(Vector3.up * _velocityMultiplier * _jumpForce, ForceMode.Impulse);
@@ -98,13 +107,13 @@ namespace Main.Player
 
         private void OnAboveGround()
         {
-            _rb.drag = 0f;
+            
         }
 
         private void OnLandedGround()
         {
             _rb.drag = _defaultDrag;
-            _isReadyToJump = true;
+            _isInJump = false;
         }
     }
 }
