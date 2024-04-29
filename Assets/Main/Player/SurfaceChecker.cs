@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using EasyButtons;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UniRx.Triggers;
 using UniRx;
 using UnityEditor;
@@ -11,12 +12,10 @@ namespace Main.Player
 {
     public class SurfaceChecker : MonoBehaviour
     {
-        public bool IsGrounded { get;private set; }
+        public bool IsTouchingGround { get;private set; }
 
         public event Action AboveGroundEvent;
-        public event Action LandedGroundEvent;
 
-        [SerializeField] private Transform _topPoint;
         [SerializeField] private Transform _bottomPoint;
         [SerializeField] private float _distance;
         [SerializeField] private LayerMask _groundMask;
@@ -28,34 +27,25 @@ namespace Main.Player
         private Vector3 _currentNormal = Vector3.up;
         private List<Collider> _currentGrounds;
         private Collider _suitableGround;
+        private CancellationTokenSource _cts;
 
         private void Start()
         {
-            AboveGroundEvent?.Invoke();
-            
             InitGroundsCollector();
             InitGroundChecker();
         }
 
         private void InitGroundChecker()
         {
-            _raycastChecker = this.UpdateAsObservable().Subscribe(x =>
+            _raycastChecker = this.FixedUpdateAsObservable().Subscribe(x =>
             {
-                Ray ray2 = new Ray(_bottomPoint.position, ValidateSlope()?-_currentNormal: Vector3.down);
+                Ray ray = new Ray(_bottomPoint.position, ValidateSlope()?-_currentNormal: Vector3.down);
                 
-                var isGrounded = Physics.Raycast(ray2, _distance, _groundMask);
-                
-                if (IsGrounded!=isGrounded)
+                var isGrounded = Physics.Raycast(ray, _distance, _groundMask);
+                IsTouchingGround = isGrounded;
+                if (isGrounded==false)
                 {
-                    IsGrounded = isGrounded;
-                    if (IsGrounded)
-                    {
-                        LandedGroundEvent?.Invoke();
-                    }
-                    else
-                    {
-                        AboveGroundEvent?.Invoke();
-                    }
+                    AboveGroundEvent?.Invoke();
                 }
             }).AddTo(this);
         }
@@ -82,6 +72,23 @@ namespace Main.Player
             }).AddTo(this);
         }
 
+        public async void ProcessingJumpCheck()
+        {
+            _cts = new CancellationTokenSource();
+            float safetySec = 1f;
+            while (safetySec > 0)
+            {
+                var canceled = await UniTask.WaitForFixedUpdate(_cts.Token).SuppressCancellationThrow();
+                if (canceled || IsTouchingGround)
+                {
+                    return;
+                }
+
+                safetySec -= Time.fixedDeltaTime;
+            }
+            AboveGroundEvent?.Invoke();
+        }
+
         private void SetSuitableGround()
         {
             if (_currentGrounds.Count != 0)
@@ -92,14 +99,9 @@ namespace Main.Player
             }
         }
         
-        public bool ValidateSpaceAbove()
-        {
-            return Physics.Raycast(_topPoint.position, Vector3.up, _distance)==false;
-        }
-
         public bool ValidateSlope()
         {
-            return Vector3.Angle(Vector3.up, _currentNormal)<=_slopeAngleLimit;
+            return Vector3.Angle(Vector3.up, _currentNormal)<=_slopeAngleLimit && _currentGrounds.Count==1;
         }
         
         public Vector3 GetNormalProjectedVector(Vector3 dir)
@@ -120,26 +122,14 @@ namespace Main.Player
             _raycastChecker?.Dispose();
             _enterCollidersChecker?.Dispose();
             _exitCollidersChecker?.Dispose();
+            _cts?.Dispose();
         }
 
 #if UNITY_EDITOR
-        [SerializeField] private List<Collider> EDITOR_physicsColliders;
-        [SerializeField] private float EDITOR_distanceBetweenPoints;
+        
         private Vector3 EDITOR_normalDir;
         
-        [Button]
-        private void SetupSurfaceAdditionals()
-        {
-            if (EDITOR_physicsColliders != null && EDITOR_physicsColliders.Count != 0)
-            {
-                var minY = EDITOR_physicsColliders.Min(x => x.bounds.min.y) + EDITOR_distanceBetweenPoints;
-                var maxY = EDITOR_physicsColliders.Max(x => x.bounds.max.y) - EDITOR_distanceBetweenPoints;
-                
-                _topPoint.position = new Vector3(transform.position.x, maxY, transform.position.z);
-                _bottomPoint.position = new Vector3(transform.position.x, minY, transform.position.z);
-            }
-        }
-
+        
         private void OnDrawGizmos()
         {
             Handles.color = Color.red;
@@ -156,7 +146,6 @@ namespace Main.Player
             }
             
             Handles.color = Color.yellow;
-            Handles.DrawLine(_topPoint.position, _topPoint.position + (_topPoint.up.normalized * _distance), 1f);
         }
         
 #endif

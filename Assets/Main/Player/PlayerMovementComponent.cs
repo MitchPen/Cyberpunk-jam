@@ -52,10 +52,7 @@ namespace Main.Player
             
             if (Input.GetKey(KeyCode.Space) && _surfaceChecker.IsTouchingGround && _preparingToJump==false)
             {
-                if (_surfaceChecker.ValidateSpaceAbove())
-                {
-                    Jump();
-                }
+                Jump();
             }
 
             ValidateSpeed();
@@ -67,17 +64,20 @@ namespace Main.Player
         {
             _cameraHolder.GetCorrectedVectors(out Vector3 forwardVector, out Vector3 rightVector);
 
-            if (_surfaceChecker.ValidateSlope()==false && _surfaceChecker.IsTouchingGround)
+            if (_surfaceChecker.ValidateSlope()==false)
             {
-                _rb.AddForce(Vector3.down*_slopesGravityMultiplier, ForceMode.Impulse);
+                // _rb.AddForce(Vector3.down*_slopesGravityMultiplier, ForceMode.Impulse);
             }
             
             var velocity =  ( forwardVector * _verticalInput +rightVector * _horizontalInput).normalized
                             *_velocityMultiplier;
             
             if (_surfaceChecker.IsTouchingGround==false || _preparingToJump)
-            { 
-                SimulateGravity();
+            {
+                if (_surfaceChecker.ValidateSlope()==false)
+                {
+                    SimulateGravity();
+                }
 
                 velocity = new Vector3(velocity.x * _airMultiplier, velocity.y, velocity.z*_airMultiplier);
             }

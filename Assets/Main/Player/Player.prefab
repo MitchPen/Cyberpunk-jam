@@ -89,7 +89,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d12646bc97d7cbe44a5ed778d7ba8e08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _topPoint: {fileID: 323604374395521600}
   _bottomPoint: {fileID: 4186839044707035613}
   _distance: 0.68
   _groundMask:
@@ -97,10 +96,6 @@ MonoBehaviour:
     m_Bits: 256
   _slopeAngleLimit: 29
   _movementCollider: {fileID: 6963114056574552546}
-  EDITOR_physicsColliders:
-  - {fileID: 1214268986279472473}
-  - {fileID: 6963114056574552546}
-  EDITOR_distanceBetweenPoints: 0.6
 --- !u!1 &2736050438365652415
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,7 +287,7 @@ MonoBehaviour:
   _jumpForce: 2
   _airMultiplier: 0.8
   _gravity: -19.62
-  flot: 50
+  _slopesGravityMultiplier: 15
 --- !u!1 &6174724220450249984
 GameObject:
   m_ObjectHideFlags: 0
