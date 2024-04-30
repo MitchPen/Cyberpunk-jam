@@ -20,18 +20,12 @@ namespace Main.Player
         [SerializeField] private float _distance;
         [SerializeField] private LayerMask _groundMask;
         [SerializeField] private float _slopeAngleLimit;
-        [SerializeField] private Collider _movementCollider;
         private IDisposable _raycastChecker;
-        private IDisposable _enterCollidersChecker;
-        private IDisposable _exitCollidersChecker;
         private Vector3 _currentNormal = Vector3.up;
-        private List<Collider> _currentGrounds;
-        private Collider _suitableGround;
         private CancellationTokenSource _cts;
 
         private void Start()
         {
-            InitGroundsCollector();
             InitGroundChecker();
         }
 
@@ -39,35 +33,27 @@ namespace Main.Player
         {
             _raycastChecker = this.FixedUpdateAsObservable().Subscribe(x =>
             {
-                Ray ray = new Ray(_bottomPoint.position, ValidateSlope()?-_currentNormal: Vector3.down);
+                // Ray rayBottom = new Ray(_bottomPoint.position, ValidateSlope()?-_currentNormal: Vector3.down);
+
+                bool isGrounded = false;
+                for (int i = 0; i < 5; i++)
+                {
+                    Vector3 direction = (Quaternion.Euler(0f, 90f*i, 0f))* Vector3.forward;
+                    Ray ray = new Ray(_bottomPoint.position,  i==4? Vector3.down: direction);
+                    
+                    if (Physics.Raycast(ray, out  RaycastHit hit, _distance, _groundMask))
+                    {
+                        isGrounded = true;
+                        _currentNormal = hit.normal;
+                        break;
+                    }
+                }
                 
-                var isGrounded = Physics.Raycast(ray, _distance, _groundMask);
+                // var isGrounded = Physics.Raycast(rayBottom, _distance, _groundMask);
                 IsTouchingGround = isGrounded;
-                if (isGrounded==false)
+                if (IsTouchingGround==false)
                 {
                     AboveGroundEvent?.Invoke();
-                }
-            }).AddTo(this);
-        }
-
-        private void InitGroundsCollector()
-        {
-            _currentGrounds = new List<Collider>();
-            _enterCollidersChecker = _movementCollider.OnCollisionEnterAsObservable().RepeatUntilDisable(transform).Subscribe(collision =>
-            {
-                if (_currentGrounds.Contains(collision.collider)==false)
-                {
-                    _currentGrounds.Add(collision.collider);
-                    SetSuitableGround();
-                }
-            }).AddTo(this);
-            
-            _exitCollidersChecker = _movementCollider.OnCollisionExitAsObservable().RepeatUntilDisable(transform).Subscribe(collision =>
-            {
-                if (_currentGrounds.Contains(collision.collider))
-                {
-                    _currentGrounds.Remove(collision.collider);
-                    SetSuitableGround();
                 }
             }).AddTo(this);
         }
@@ -88,21 +74,12 @@ namespace Main.Player
             }
             AboveGroundEvent?.Invoke();
         }
-
-        private void SetSuitableGround()
-        {
-            if (_currentGrounds.Count != 0)
-            {
-                _suitableGround = _currentGrounds.OrderByDescending(x => Vector3.Dot(x.transform.up, Vector3.up)).First();
-                Debug.LogWarning("SELECTED NEW GROUND, DOT: "+Vector3.Dot(_suitableGround.transform.up, Vector3.up));
-                _currentNormal = _suitableGround.transform.up;
-            }
-        }
         
         public bool ValidateSlope()
         {
-            return Vector3.Angle(Vector3.up, _currentNormal)<=_slopeAngleLimit && _currentGrounds.Count==1;
+            return Vector3.Angle(Vector3.up, _currentNormal)<=_slopeAngleLimit;
         }
+        
         
         public Vector3 GetNormalProjectedVector(Vector3 dir)
         {
@@ -120,14 +97,13 @@ namespace Main.Player
         private void OnDisable()
         {
             _raycastChecker?.Dispose();
-            _enterCollidersChecker?.Dispose();
-            _exitCollidersChecker?.Dispose();
             _cts?.Dispose();
         }
 
 #if UNITY_EDITOR
         
         private Vector3 EDITOR_normalDir;
+        [SerializeField] private bool EDITOR_raycastsVisual;
         
         
         private void OnDrawGizmos()
@@ -136,16 +112,18 @@ namespace Main.Player
             if (EDITOR_normalDir!=Vector3.zero)
             {
                 Handles.DrawLine(transform.position, transform.position+EDITOR_normalDir, 3f);
-                Gizmos.color = Color.yellow;   
-                Gizmos.DrawLine(_bottomPoint.position, _bottomPoint.position+ (ValidateSlope()?-_currentNormal: Vector3.down) *_distance);
             }
-            else
+
+            if (EDITOR_raycastsVisual)
             {
-                Handles.color = Color.yellow;
-                Handles.DrawLine(_bottomPoint.position, _bottomPoint.position + (-_bottomPoint.up.normalized * _distance), 1f);
+                Gizmos.color = Color.yellow;
+                Gizmos.DrawRay(_bottomPoint.position, Vector3.forward*_distance);
+                Gizmos.DrawRay(_bottomPoint.position, Vector3.right*_distance);
+                Gizmos.DrawRay(_bottomPoint.position, Vector3.back*_distance);
+                Gizmos.DrawRay(_bottomPoint.position, Vector3.left*_distance);
+                Gizmos.DrawRay(_bottomPoint.position, Vector3.down*_distance);
             }
-            
-            Handles.color = Color.yellow;
+
         }
         
 #endif

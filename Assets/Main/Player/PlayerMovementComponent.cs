@@ -74,10 +74,7 @@ namespace Main.Player
             
             if (_surfaceChecker.IsTouchingGround==false || _preparingToJump)
             {
-                if (_surfaceChecker.ValidateSlope()==false)
-                {
-                    SimulateGravity();
-                }
+                SimulateGravity();
 
                 velocity = new Vector3(velocity.x * _airMultiplier, velocity.y, velocity.z*_airMultiplier);
             }
