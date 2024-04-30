@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f31b0a693358234e991f9a251663140, type: 3}
-  m_Name: ProjectileWeaponSetup
+  m_Name: Pistio
   m_EditorClassIdentifier: 
   Weapon: {fileID: 7103546691976992796, guid: d168d8db9695cb64baaef8127e5fef9a, type: 3}
   Data:
+    Type: 0
     damage: 35
     attackRate: 3
     reloadTime: 2.5
     Projectile: {fileID: 273864103429141664, guid: 447993e6a04d3314d8097490d8049fa4, type: 3}
     bulletCount: 9
     bulletSpeed: 50
+    bulletPerShot: 1

@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace Main.Scripts.Weapons.Projectile
 {
-    public class BaseProjectileWeapon : MonoBehaviour, IWeapon
+    public class DefaultProjectileWeapon : MonoBehaviour, IWeapon
     {
         [SerializeField] protected Transform _shootPoint;
         [SerializeField] protected LayerMask _raycastIgnore;
-        private ProjectileWeaponData _weaponData;
+        protected ProjectileWeaponData _data;
         private CancellationTokenSource _ctx;
         private int _shootingDelay;
         private int _reloadDelay;
@@ -21,26 +21,24 @@ namespace Main.Scripts.Weapons.Projectile
 
         public bool AbleToAttack => _onCoolDown == false && _onReload == false;
         public GameObject GetObject => this.gameObject;
-        public WeaponType GetWeaponType => _weaponData.Type;
+        public WeaponType GetWeaponType => _data.Type;
 
         public void SetRangeWeaponRaycastPosition(Transform raycastPos) =>
             _raycastStart = raycastPos;
 
         // ReSharper disable Unity.PerformanceAnalysis
-        private void Shoot()
+        protected virtual void Shoot()
         {
             if (AbleToAttack == false) return;
 
             var direction = CalcBulletDirection();
-            var bullet = LeanPool.Spawn(_weaponData.Projectile);
+            var bullet = LeanPool.Spawn(_data.Projectile);
             bullet.transform.position = _shootPoint.position;
-            bullet.Setup(direction, _weaponData.bulletSpeed, _weaponData.damage);
+            bullet.Setup(direction, _data.bulletSpeed, _data.damage);
             bullet.Enable();
-            _bulletCount--;
-            ApplyCooldown();
         }
 
-        protected Vector3 CalcBulletDirection()
+        protected virtual Vector3 CalcBulletDirection()
         {
             if (_raycastStart == null) return _shootPoint.forward;
             var direction = _shootPoint.forward;
@@ -56,7 +54,12 @@ namespace Main.Scripts.Weapons.Projectile
         public void Attack()
         {
             if (_bulletCount > 0)
+            {
+                if (!AbleToAttack) return;
                 Shoot();
+                _bulletCount--;
+                ApplyCooldown();
+            }
             else
                 Reload();
         }
@@ -67,11 +70,11 @@ namespace Main.Scripts.Weapons.Projectile
             _onReload = true;
             await UniTask.Delay(_reloadDelay, cancellationToken: _ctx.Token).SuppressCancellationThrow();
             if (!_ctx.IsCancellationRequested)
-                _bulletCount = _weaponData.bulletCount;
+                _bulletCount = _data.bulletCount;
             _onReload = false;
         }
 
-        private async void ApplyCooldown()
+        protected async void ApplyCooldown()
         {
             if (_onCoolDown) return;
             _onCoolDown = true;
@@ -79,12 +82,12 @@ namespace Main.Scripts.Weapons.Projectile
             _onCoolDown = false;
         }
 
-        public void Setup(WeaponData data)
+        public virtual void Setup(WeaponData data)
         {
-            _weaponData = (ProjectileWeaponData) data;
-            _shootingDelay = Mathf.CeilToInt((1f / _weaponData.attackRate) * 1000);
-            _reloadDelay = Mathf.CeilToInt((_weaponData.reloadTime) * 1000);
-            _bulletCount = _weaponData.bulletCount;
+            _data = (ProjectileWeaponData) data;
+            _shootingDelay = Mathf.CeilToInt((1f / _data.attackRate) * 1000);
+            _reloadDelay = Mathf.CeilToInt((_data.reloadTime) * 1000);
+            _bulletCount = _data.bulletCount;
             _onCoolDown = false;
             _onReload = false;
         }
@@ -127,5 +130,7 @@ namespace Main.Scripts.Weapons.Projectile
         public BaseProjectile Projectile;
         public int bulletCount;
         public int bulletSpeed;
+        public int bulletPerShot;
+        public float dispersion;
     }
 }
