@@ -8,44 +8,38 @@ namespace Main.Scripts.Weapons
     public class WeaponController : MonoBehaviour
     {
         [SerializeField] private Transform WeaponPoint;
-        [SerializeField] private ProjectileWeaponConfig _testConfig;
+        [SerializeField] private WeaponConfig _testConfig;
         [SerializeField] private Camera _fpsCamera;
         [SerializeField] private LayerMask _raycastIgnore;
-        private List<IWeapon> _weapons = new List<IWeapon>();
+        private Dictionary<WeaponType, IWeapon> _weapons = new Dictionary<WeaponType, IWeapon>();
+        private List<WeaponType> _weaponOrder = new List<WeaponType>();
         private IWeapon _currentWeapon;
         private int _currentIndex;
 
         void Start()
         {
-            var test = new List<(IWeapon weapon, WeaponData data)>();
-            foreach (var w in _testConfig.WeaponSetups)
-            {
-                var wiii = (w.Weapon, w.Data);
-                test.Add(wiii);
-            }
-
-            Initialize(test);
+      
+            Initialize(_testConfig);
         }
 
-        public void Initialize(IEnumerable<(IWeapon weapon, WeaponData data)> weapons)
+        public void Initialize(WeaponConfig weapons)
         {
-            foreach (var (weapon, data) in weapons)
+            foreach (var weapon in weapons.ProjectileWeapons.WeaponSetups)
             {
-                var newWeapon = Instantiate(weapon.GetObject, WeaponPoint.position, Quaternion.identity)
+                var newWeapon = Instantiate(weapon.Weapon.GetObject, WeaponPoint.position, Quaternion.identity)
                     .GetComponent<IWeapon>();
-                newWeapon.Setup(data);
-                if (newWeapon.GetWeaponType == WeaponType.Range)
-                    newWeapon.SetRangeWeaponRaycastPosition(_fpsCamera.transform);
+                newWeapon.Setup(weapon.Data);
+                newWeapon.SetRangeWeaponRaycastPosition(_fpsCamera.transform);
                 newWeapon.Hide();
-                _weapons.Add(newWeapon);
+                _weapons.Add(weapon.Type, newWeapon);
+                _weaponOrder.Add(weapon.Type);
             }
-
+            
             ChangeWeaponByIndex(0);
         }
 
         void Update()
         {
-            //Test input
             if (Input.GetKey(KeyCode.Mouse0))
             {
                 CastWeaponAction(WeaponActionType.ATTACK);
@@ -61,15 +55,11 @@ namespace Main.Scripts.Weapons
                 CastWeaponAction(WeaponActionType.RELOAD);
             }
 
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                ChangeWeaponByDirection(WeaponChangeDirection.NEXT);
-            }
-
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
+            if(Input.mouseScrollDelta.y<0f)
                 ChangeWeaponByDirection(WeaponChangeDirection.PREV);
-            }
+            
+            if(Input.mouseScrollDelta.y>0f)
+                ChangeWeaponByDirection(WeaponChangeDirection.NEXT);
         }
 
         private void CastWeaponAction(WeaponActionType type)
@@ -92,17 +82,17 @@ namespace Main.Scripts.Weapons
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
         }
-
+        
         private void ChangeWeapon()
         {
             if (_currentWeapon != null)
             {
-                if (_currentWeapon == _weapons[_currentIndex]) return;
+                if (_currentWeapon == _weapons[_weaponOrder[_currentIndex]]) return;
 
                 _currentWeapon.Hide();
             }
 
-            _currentWeapon = _weapons[_currentIndex];
+            _currentWeapon = _weapons[_weaponOrder[_currentIndex]];
             _currentWeapon.Show();
         }
 

@@ -2,9 +2,10 @@ using UnityEngine;
 
 namespace Main.Scripts.Weapons.Projectile
 {
-    [CreateAssetMenu(fileName = "ProjectileWeaponSetup", menuName = "CONFIGS/WEAPONS/New ProjectileWeaponSetup")]
+    [CreateAssetMenu(fileName = "ProjectileWeaponSetup", menuName = "Configuration/Weapons/New ProjectileWeaponSetup")]
     public class ProjectileWeaponSetup : ScriptableObject
     {
+        public WeaponType Type;
         public DefaultProjectileWeapon Weapon;
         public ProjectileWeaponData Data;
     }

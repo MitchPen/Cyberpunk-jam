@@ -21,7 +21,6 @@ namespace Main.Scripts.Weapons.Projectile
 
         public bool AbleToAttack => _onCoolDown == false && _onReload == false;
         public GameObject GetObject => this.gameObject;
-        public WeaponType GetWeaponType => WeaponType.Range;
 
         public void SetRangeWeaponRaycastPosition(Transform raycastPos) =>
             _raycastStart = raycastPos;

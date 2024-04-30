@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Main.Scripts.Weapons.Projectile
 {
-    [CreateAssetMenu(fileName = "ProjectileWeaponConfig", menuName = "CONFIGS/WEAPONS/New ProjectileWeaponConfig")]
+    [CreateAssetMenu(fileName = "ProjectileWeapon_CFG", menuName = "Configuration/Weapons/New ProjectileWeaponConfig")]
     public class ProjectileWeaponConfig : ScriptableObject
     {
         public List<ProjectileWeaponSetup> WeaponSetups = new List<ProjectileWeaponSetup>();

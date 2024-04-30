@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f31b0a693358234e991f9a251663140, type: 3}
   m_Name: Automatic Rifle
   m_EditorClassIdentifier: 
+  Type: 3
   Weapon: {fileID: 4540417093980807611, guid: b5e9c66f1521c6e41af2164bb8b706e1, type: 3}
   Data:
-    Type: 0
-    damage: 15
+    damage: 7
     attackRate: 5
     reloadTime: 4
     Projectile: {fileID: 273864103429141664, guid: 8f560d5efc8d8654299460de2b447dba, type: 3}
     bulletCount: 25
     bulletSpeed: 75
     bulletPerShot: 1
+    dispersion: 0

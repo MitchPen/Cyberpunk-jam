@@ -12,7 +12,6 @@ namespace Main.Scripts.Weapons
         public void Show();
         public void Hide();
         public GameObject GetObject { get; }
-        public WeaponType GetWeaponType { get; }
         public void SetRangeWeaponRaycastPosition(Transform raycastPos);
     }
 
@@ -23,8 +22,13 @@ namespace Main.Scripts.Weapons
         public float reloadTime;
     }
 
-    public enum WeaponType
+    public enum WeaponAttackType
     {
         Range,Melee
+    }
+    
+    public enum WeaponType
+    {
+        Pistol,Shotgun,Blade, Rifle
     }
 }

@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f31b0a693358234e991f9a251663140, type: 3}
   m_Name: Shotgun
   m_EditorClassIdentifier: 
+  Type: 1
   Weapon: {fileID: 7544266244597760200, guid: 8ff674a1eb5ba56448131755320259ef, type: 3}
   Data:
-    Type: 0
     damage: 15
     attackRate: 1
-    reloadTime: 3
+    reloadTime: 1
     Projectile: {fileID: 273864103429141664, guid: 6ee811d1deb6e824183d65eb2edc9f0d, type: 3}
-    bulletCount: 5
-    bulletSpeed: 20
+    bulletCount: 10
+    bulletSpeed: 50
     bulletPerShot: 5
+    dispersion: 0.7
