@@ -18,7 +18,6 @@ namespace Main.Scripts.Weapons
 
     public abstract class WeaponData
     {
-        public WeaponType Type;
         public float damage;
         public int attackRate;
         public float reloadTime;
