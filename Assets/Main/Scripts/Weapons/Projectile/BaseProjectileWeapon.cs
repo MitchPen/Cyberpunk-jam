@@ -31,18 +31,26 @@ namespace Main.Scripts.Weapons.Projectile
         {
             if (AbleToAttack == false) return;
 
-            var direction = _shootPoint.forward;
-
-            if (Physics.Raycast(_raycastStart.position, _raycastStart.forward, out RaycastHit hit,
-                Mathf.Infinity, _raycastIgnore))
-                direction = hit.point - _shootPoint.position;
-
+            var direction = CalcBulletDirection();
             var bullet = LeanPool.Spawn(_weaponData.Projectile);
             bullet.transform.position = _shootPoint.position;
             bullet.Setup(direction, _weaponData.bulletSpeed, _weaponData.damage);
             bullet.Enable();
             _bulletCount--;
             ApplyCooldown();
+        }
+
+        protected Vector3 CalcBulletDirection()
+        {
+            if (_raycastStart == null) return _shootPoint.forward;
+            var direction = _shootPoint.forward;
+
+            if (!Physics.Raycast(_raycastStart.position, _raycastStart.forward, out var hit,
+                Mathf.Infinity, _raycastIgnore)) return direction;
+  
+            if(Vector3.Distance(hit.point,_shootPoint.position)>0.5f)
+                direction = hit.point - _shootPoint.position;
+            return direction;
         }
 
         public void Attack()
@@ -65,6 +73,7 @@ namespace Main.Scripts.Weapons.Projectile
 
         private async void ApplyCooldown()
         {
+            if (_onCoolDown) return;
             _onCoolDown = true;
             await UniTask.Delay(_shootingDelay, cancellationToken: _ctx.Token).SuppressCancellationThrow();
             _onCoolDown = false;
@@ -103,6 +112,12 @@ namespace Main.Scripts.Weapons.Projectile
             }
 
             gameObject.SetActive(false);
+        }
+        
+        public void OnDrawGizmos()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawRay(transform.position, transform.forward * 10);
         }
     }
 

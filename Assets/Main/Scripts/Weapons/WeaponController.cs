@@ -162,7 +162,7 @@ namespace Main.Scripts.Weapons
             }
 
             Gizmos.color = Color.green;
-            Gizmos.DrawRay(transform.position, transform.forward * 100);
+            Gizmos.DrawRay(transform.position, transform.forward * 10);
         }
     }
 }
