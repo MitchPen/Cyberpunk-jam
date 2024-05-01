@@ -8,7 +8,7 @@ namespace Main.Player
     {
         [Header("General")]
         [SerializeField] private PlayerCameraHolder _cameraHolder;
-        [SerializeField] private SurfaceChecker _surfaceChecker;
+        [SerializeField] private PlayerSurfaceHelperComponent _playerSurfaceHelperComponent;
         [SerializeField] private Rigidbody _rb;
         [Header("Movement")]
         [SerializeField] private float _maxMovementSpeed = 10f;
@@ -17,13 +17,12 @@ namespace Main.Player
         [SerializeField] private float _jumpForce = 1.5f;
         [SerializeField] private float _airMultiplier = 0.3f;
         [SerializeField] private float _gravity;
-        [SerializeField] private float _slopesGravityMultiplier = 15f;
+        [SerializeField] private float _steepSlopesGravityMultiplier = 15f;
 
         private float _horizontalInput;
         private float _verticalInput;
         private bool _preparingToJump=true;
-
-        private float deltatime;
+        private bool InJumpingProcess => _playerSurfaceHelperComponent.IsTouchingGround == false || _preparingToJump;
         
         private void Awake()
         {
@@ -32,17 +31,18 @@ namespace Main.Player
         
         private void OnEnable()
         {
-            _surfaceChecker.AboveGroundEvent += OnAboveGround;
+            _playerSurfaceHelperComponent.AboveGroundedEvent += OnAboveGrounded;
         }
 
         private void OnDisable()
         {
-            _surfaceChecker.AboveGroundEvent -= OnAboveGround;
+            _playerSurfaceHelperComponent.AboveGroundedEvent -= OnAboveGrounded;
         }
         
         private void FixedUpdate()
         {
             Move();
+            ValidateSpeed();
         }
 
         private void Update()
@@ -50,48 +50,70 @@ namespace Main.Player
             _horizontalInput = Input.GetAxisRaw("Horizontal");
             _verticalInput = Input.GetAxisRaw("Vertical");
             
-            if (Input.GetKey(KeyCode.Space) && _surfaceChecker.IsTouchingGround && _preparingToJump==false)
+            if (Input.GetKey(KeyCode.Space) && InJumpingProcess==false)
             {
                 Jump();
             }
-
-            ValidateSpeed();
-            // Debug.LogWarning(1/Time.deltaTime);
         }
 
-        
         private void Move()
         {
+            _playerSurfaceHelperComponent.CastChecker();
+            
             _cameraHolder.GetCorrectedVectors(out Vector3 forwardVector, out Vector3 rightVector);
-
-            if (_surfaceChecker.ValidateSlope()==false)
-            {
-                // _rb.AddForce(Vector3.down*_slopesGravityMultiplier, ForceMode.Impulse);
-            }
             
             var velocity =  ( forwardVector * _verticalInput +rightVector * _horizontalInput).normalized
                             *_velocityMultiplier;
             
-            if (_surfaceChecker.IsTouchingGround==false || _preparingToJump)
+            if (InJumpingProcess)
             {
-                SimulateGravity();
+                velocity += SimulateGravity();
 
                 velocity = new Vector3(velocity.x * _airMultiplier, velocity.y, velocity.z*_airMultiplier);
             }
             else
             {
-                velocity = _surfaceChecker.GetNormalProjectedVector(velocity);
+                velocity = _playerSurfaceHelperComponent.GetNormalProjectedVector(velocity);
+
+                if (_playerSurfaceHelperComponent.ValidateSlope()==false)
+                {
+                    velocity = new Vector3(velocity.x * _airMultiplier/2, velocity.y, velocity.z*_airMultiplier/2);
+
+                    velocity += _playerSurfaceHelperComponent.GetNormalProjectedVector(-transform.up, true)
+                                * _steepSlopesGravityMultiplier*_velocityMultiplier *Time.fixedDeltaTime;
+                }
+                else
+                {
+                    var vel = _rb.velocity;
+                    vel.y = 0f;
+                    _rb.velocity = vel;
+                }
+                
+                velocity += TryFloatPositionRb();
             }
-            
+
             _rb.AddForce(velocity,ForceMode.Impulse);
         }
+        
+        private Vector3 TryFloatPositionRb()
+        {
+            if (InJumpingProcess==false)
+            {
+                var diff = _playerSurfaceHelperComponent.GetGroundDistanceDifference();
+                if (Mathf.Approximately(diff,0)==false)
+                {
+                    return transform.up * (diff / Time.fixedDeltaTime);
+                }
+            }
+            return Vector3.zero;
+        }
 
-        private void SimulateGravity()
+        private Vector3 SimulateGravity()
         {
             float yVelocityByDrag = _rb.velocity.y * _rb.drag;
             float dragCoef = (1 - Time.deltaTime * _rb.drag);
-                
-            _rb.AddForce(Vector3.up * ((yVelocityByDrag + _gravity) / dragCoef * _rb.mass));
+
+            return Vector3.up * ((yVelocityByDrag + _gravity) / dragCoef * _rb.mass)*Time.fixedDeltaTime;
         }
         
         private void ValidateSpeed()
@@ -105,18 +127,26 @@ namespace Main.Player
             }
         }
 
-        private void Jump()
+        private void Jump() //TODO Restrict jump while sloping
         {
             _preparingToJump = true;
 
             _rb.velocity = new Vector3(_rb.velocity.x, 0f, _rb.velocity.z);
             _rb.AddForce(Vector3.up * _velocityMultiplier * _jumpForce, ForceMode.Impulse);
-            _surfaceChecker.ProcessingJumpCheck();
+            _playerSurfaceHelperComponent.ProcessingJumpCheck();
         }
 
-        private void OnAboveGround()
+        private void OnAboveGrounded()
         {
             _preparingToJump = false;
+        }
+
+        private void CheckJumpInfo() //remove constant AboveGround event
+        {
+            if (_playerSurfaceHelperComponent)
+            {
+                
+            }
         }
     }
 }
