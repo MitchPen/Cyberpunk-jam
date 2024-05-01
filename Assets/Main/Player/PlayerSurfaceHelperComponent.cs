@@ -1,6 +1,3 @@
-using System;
-using System.Threading;
-using Cysharp.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
@@ -48,7 +45,7 @@ namespace Main.Player
                 
                 _isTouchingGround = false;
             }
-
+            
             return _isTouchingGround;
         }
 

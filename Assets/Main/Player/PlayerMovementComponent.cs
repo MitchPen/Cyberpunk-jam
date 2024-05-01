@@ -1,4 +1,3 @@
-using System;
 using Main.Player.Camera;
 using UnityEngine;
 
@@ -22,7 +21,7 @@ namespace Main.Player
         private float _horizontalInput;
         private float _verticalInput;
         
-        private bool _preparingToJump=true;
+        private bool _preparingToJump;
         private bool _jumpKeyPressed;
         private Vector3 _currentCalculatedVelocity;
         private float _lastJumpTime;
@@ -95,7 +94,7 @@ namespace Main.Player
         {
             if (_preparingToJump)
             {
-                if (IsJumpPreparingTimeOut() || _playerSurfaceHelperComponent.JustAboveGround)
+                if (_playerSurfaceHelperComponent.JustAboveGround || IsJumpPreparingTimeOut())
                 {
                     _preparingToJump = false;
                 }
@@ -121,9 +120,9 @@ namespace Main.Player
                 if (isGrounded && _playerSurfaceHelperComponent.ValidateSlope())
                 {
                     _preparingToJump = true;
-                    Debug.LogWarning("JUMPED");
+                    
                     CheckLandedGroundInfo();
-                    _currentCalculatedVelocity += (Vector3.up * _velocityMultiplier * _jumpForce) - (Vector3.up*_rb.velocity.y);
+                    _currentCalculatedVelocity += Vector3.up *(_velocityMultiplier * _jumpForce - _rb.velocity.y);
                     _lastJumpTime = Time.time;
                 }
             }
@@ -131,7 +130,7 @@ namespace Main.Player
         
         private bool IsJumpPreparingTimeOut() //safety check  
         {
-            if (Time.time-(_lastJumpTime+1f)<=0)
+            if (Time.time-(_lastJumpTime+1f)>0)
             {
                 return true;
             }

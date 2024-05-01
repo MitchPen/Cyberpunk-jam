@@ -94,7 +94,7 @@ MonoBehaviour:
   _groundMask:
     serializedVersion: 2
     m_Bits: 256
-  _slopeAngleLimit: 70
+  _slopeAngleLimit: 45
 --- !u!1 &2736050438365652415
 GameObject:
   m_ObjectHideFlags: 0
