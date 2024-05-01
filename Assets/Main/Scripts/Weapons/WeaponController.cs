@@ -10,7 +10,6 @@ namespace Main.Scripts.Weapons
         [SerializeField] private Transform WeaponPoint;
         [SerializeField] private WeaponConfig _testConfig;
         [SerializeField] private Camera _fpsCamera;
-        [SerializeField] private LayerMask _raycastIgnore;
         private Dictionary<WeaponType, IWeapon> _weapons = new Dictionary<WeaponType, IWeapon>();
         private List<WeaponType> _weaponOrder = new List<WeaponType>();
         private IWeapon _currentWeapon;
@@ -28,6 +27,7 @@ namespace Main.Scripts.Weapons
             {
                 var newWeapon = Instantiate(weapon.Weapon.GetObject, WeaponPoint.position, Quaternion.identity)
                     .GetComponent<IWeapon>();
+                newWeapon.GetObject.transform.SetParent(WeaponPoint);
                 newWeapon.Setup(weapon.Data);
                 newWeapon.SetRangeWeaponRaycastPosition(_fpsCamera.transform);
                 newWeapon.Hide();
