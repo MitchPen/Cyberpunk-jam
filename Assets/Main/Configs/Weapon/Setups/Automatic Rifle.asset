@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: Automatic Rifle
   m_EditorClassIdentifier: 
   Type: 3
-  Weapon: {fileID: 4540417093980807611, guid: b5e9c66f1521c6e41af2164bb8b706e1, type: 3}
+  Weapon: {fileID: 43807548709985588, guid: 9d9c7350443248241ab553f55a652a93, type: 3}
   Data:
     damage: 7
-    attackRate: 5
+    attackRate: 15
     reloadTime: 4
-    Projectile: {fileID: 273864103429141664, guid: 8f560d5efc8d8654299460de2b447dba, type: 3}
+    Projectile: {fileID: 273864103429141664, guid: 09913834bf4acb94b8c0c066c990d097, type: 3}
+    ShotSound: {fileID: 8300000, guid: 73bf696d794524a4e990062bb877a6f4, type: 3}
     bulletCount: 25
-    bulletSpeed: 75
+    bulletSpeed: 120
     bulletPerShot: 1
     dispersion: 0
+    infinityBullet: 1

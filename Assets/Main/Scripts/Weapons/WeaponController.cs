@@ -45,10 +45,10 @@ namespace Main.Scripts.Weapons
                 CastWeaponAction(WeaponActionType.ATTACK);
             }
 
-            if (Input.GetKeyDown(KeyCode.Mouse1))
+            /*if (Input.GetKeyDown(KeyCode.Mouse1))
             {
                 CastWeaponAction(WeaponActionType.ALT);
-            }
+            }*/
 
             if (Input.GetKeyDown(KeyCode.R))
             {

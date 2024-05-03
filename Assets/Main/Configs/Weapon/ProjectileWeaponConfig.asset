@@ -15,4 +15,3 @@ MonoBehaviour:
   WeaponSetups:
   - {fileID: 11400000, guid: d58b8fa277745544c9ee73e8cc123bfc, type: 2}
   - {fileID: 11400000, guid: 5b3d77840a0e19c46b38b529683dc4ec, type: 2}
-  - {fileID: 11400000, guid: 7d038d2aca8b8464fa0aab445da5832e, type: 2}
