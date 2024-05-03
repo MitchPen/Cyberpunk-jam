@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8618641739540217946}
   - component: {fileID: 7289599730574433932}
   m_Layer: 16
-  m_Name: Shotgun Projectile
+  m_Name: Shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 313a704bb3b6ff540a6b8d54fbb032ed, type: 2}
+  - {fileID: 2100000, guid: 6b03c621982c20a468fae0e4d282fa48, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -100,6 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 7289599730574433932}
   _collider: {fileID: 8618641739540217946}
+  _collisionEffect: {fileID: 4620775424926171713, guid: 65aaabc9360d36c48b00a4394f4c4603, type: 3}
 --- !u!135 &8618641739540217946
 SphereCollider:
   m_ObjectHideFlags: 0

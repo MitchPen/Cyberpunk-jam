@@ -10,14 +10,16 @@ namespace Main.Scripts.Weapons.Projectile_Weapon.Types
             {
                 base.Shoot();
             }
+            _audioPlayer.Play();
+            _gunAnimation.PlayShotAnimation(true);
         }
 
         protected override Vector3 CalcBulletDirection()
         {
             var randDispersion = new Vector3();
-            randDispersion.x = Random.Range(-_data.dispersion, _data.dispersion);
+            randDispersion.x = Random.Range(-_data.dispersion*2, _data.dispersion*2);
             randDispersion.y = Random.Range(-_data.dispersion, _data.dispersion);
-            return base.CalcBulletDirection() + randDispersion;
+            return _shootPoint.forward + randDispersion;
         }
     }
 }

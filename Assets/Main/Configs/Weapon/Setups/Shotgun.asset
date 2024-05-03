@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: 
   Type: 1
-  Weapon: {fileID: 7544266244597760200, guid: 8ff674a1eb5ba56448131755320259ef, type: 3}
+  Weapon: {fileID: 6289953953983505268, guid: 191384c1a0a293443a4a7f82f94511fd, type: 3}
   Data:
     damage: 15
     attackRate: 1
     reloadTime: 1
-    Projectile: {fileID: 273864103429141664, guid: 6ee811d1deb6e824183d65eb2edc9f0d, type: 3}
+    Projectile: {fileID: 273864103429141664, guid: cf37d82c00901344b96030ffe0e85ccf, type: 3}
+    ShotSound: {fileID: 8300000, guid: bb5e2a52703e49b48b9b7448be4032ff, type: 3}
     bulletCount: 10
-    bulletSpeed: 50
+    bulletSpeed: 100
     bulletPerShot: 5
-    dispersion: 0.7
+    dispersion: 0.15
+    infinityBullet: 1
