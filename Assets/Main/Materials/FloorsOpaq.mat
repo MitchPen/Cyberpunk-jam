@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_GridShOpaque
+  m_Name: FloorsOpaq
   m_Shader: {fileID: -6465566751694194690, guid: 5d8e9cb39c23c9c498b968146c90fcf1, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -37,13 +37,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _LineScale: 0.8
+    - _LineScale: 0.95
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _CellsColor: {r: 0.0005939323, g: 0, b: 0.05660379, a: 1}
-    - _LinesColor: {r: 0.3396226, g: 0.01409753, b: 0.01409753, a: 1}
-    - _Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _CellsColor: {r: 0.15896086, g: 0.048171833, b: 0.048171833, a: 1}
+    - _LinesColor: {r: 0.16037738, g: 0.047508013, b: 0.047508013, a: 1}
+    - _Offset: {r: 0, g: 0.06, b: 0, a: 0}
     - _Tiling: {r: 5, g: 5, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &346279355702384090
