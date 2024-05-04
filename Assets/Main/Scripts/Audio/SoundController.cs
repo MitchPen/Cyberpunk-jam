@@ -45,7 +45,7 @@ namespace Content.Audio
             LeanPool.Despawn(audioSource, audioSource.clip.length);
             audioSource.Play();
         }
-
+        
         public void PlayDefaultMusic(float customVolume = 0f)
         {
             _mainMusicSource.Stop();

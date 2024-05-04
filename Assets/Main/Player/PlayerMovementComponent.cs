@@ -1,3 +1,4 @@
+using Content.Audio;
 using Main.Player.Camera;
 using Main.Scripts.Input;
 using Main.Scripts.InputSystem;
@@ -11,6 +12,7 @@ namespace Main.Player
         [Header("General")] [SerializeField] private PlayerCameraHolder _cameraHolder;
         [SerializeField] private PlayerSurfaceHelperComponent _playerSurfaceHelperComponent;
         [SerializeField] private Rigidbody _rb;
+        [SerializeField] private AudioSource _jumpSound;
         private MovementConfig _movementConfig;
         private InputSystem _inputSystem;
         private float _horizontalInput;
@@ -53,7 +55,7 @@ namespace Main.Player
 
             HandleJumping(isGrounded);
 
-            //CheckLandedGroundInfo(); //if need to set Y to 0 on landed
+            CheckOnJustLanded();
 
             Move(_currentCalculatedVelocity, isGrounded);
         }
@@ -113,11 +115,25 @@ namespace Main.Player
             return _playerSurfaceHelperComponent.CastChecker() && _preparingToJump == false;
         }
 
-        private void CheckLandedGroundInfo()
+        private bool CheckLandedGroundInfo(bool withResetY = true)
         {
             if (_playerSurfaceHelperComponent.JustTouchedGround)
             {
-                CompleteResetY();
+                if (withResetY)
+                {
+                    CompleteResetY();
+                }
+                return true;
+            }
+
+            return false;
+        }
+
+        private void CheckOnJustLanded()
+        {
+            if (CheckLandedGroundInfo(false) && _rb.velocity.y <= -5f)
+            {
+                _jumpSound.Play();
             }
         }
 
@@ -136,6 +152,7 @@ namespace Main.Player
                                                   (_movementConfig.velocityMultiplier * _movementConfig.jumpForce -
                                                    _rb.velocity.y);
                     _lastJumpTime = Time.time;
+                    _jumpSound.Play();
                 }
             }
         }

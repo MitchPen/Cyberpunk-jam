@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _audioSourcePrefab: {fileID: 2880465709856644081}
-  _soundsVolume: 0.576
+  _soundsVolume: 0.2
   _clips: []
   _mainMusicSource: {fileID: 8927301912940278041}
   _defaultMusic: {fileID: 8300000, guid: 173f66f790acfa94f9e58d0730321bbc, type: 3}
@@ -90,7 +90,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.38
+  m_Volume: 0.07
   m_Pitch: 1
   Loop: 0
   Mute: 0
