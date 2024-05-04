@@ -488,7 +488,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8591012270740442164}
   - component: {fileID: 6011479123424520474}
-  - component: {fileID: 2459258665709851366}
   - component: {fileID: 4015633457125308238}
   m_Layer: 0
   m_Name: WeaponCamera
@@ -563,14 +562,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &2459258665709851366
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8912999250350225128}
-  m_Enabled: 1
 --- !u!114 &4015633457125308238
 MonoBehaviour:
   m_ObjectHideFlags: 0
