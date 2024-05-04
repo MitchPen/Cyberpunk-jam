@@ -10650,7 +10650,7 @@ MonoBehaviour:
   _handPoint: {fileID: 1238743438}
   _weaponShowPoint: {fileID: 2100918483}
   _showAnimator: {fileID: 6345209625269965134}
-  _testConfig: {fileID: 11400000, guid: 118a311f171b3f34dbe8e3c30cef0d01, type: 2}
+  _testConfig: {fileID: 11400000, guid: 62dac495f02303d47953e98612476824, type: 2}
 --- !u!114 &6345209625269965134
 MonoBehaviour:
   m_ObjectHideFlags: 0
