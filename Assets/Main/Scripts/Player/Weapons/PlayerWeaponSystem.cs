@@ -11,7 +11,7 @@ namespace Main.Scripts.Player.Weapons
         [SerializeField] private Camera _fpsCamera;
         [SerializeField] private Transform _handPoint;
         [SerializeField] private Transform _weaponShowPoint;
-        [SerializeField] private WeaponShowAnimationComponent _weaponAnimator;
+        [SerializeField] private WeaponAnimator _weaponAnimator;
         private List<IWeapon> _weaponOrder = new List<IWeapon>();
         private IWeapon _currentWeapon;
         private int _currentIndex;

@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!1 &535958419821422302
 GameObject:
@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1099651717940672924}
-  - component: {fileID: 5705349860253402453}
+  - component: {fileID: 5039312526688810673}
   m_Layer: 0
   m_Name: InputSystem
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1947134694768303081}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5705349860253402453
+--- !u!114 &5039312526688810673
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,7 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 535958419821422302}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85da8cb6781ab374f9e50a35fee5f42b, type: 3}
+  m_Script: {fileID: 11500000, guid: e30ffea40105497390d6b27fae99e62e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2070389774662387340
@@ -54,7 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1947134694768303081}
   - component: {fileID: 288182712896490611}
-  - component: {fileID: 4561409530597456479}
+  - component: {fileID: 2920886834231670346}
   m_Layer: 0
   m_Name: _System_.Scene
   m_TagString: Untagged
@@ -71,7 +71,7 @@ Transform:
   m_GameObject: {fileID: 2070389774662387340}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.917456, y: 6.1970673, z: -13.787938}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -92,7 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
   _monoInstallers:
-  - {fileID: 4561409530597456479}
+  - {fileID: 2920886834231670346}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -110,7 +110,7 @@ MonoBehaviour:
   _parentNewObjectsUnderSceneContext: 0
   _contractNames: []
   _parentContractNames: []
---- !u!114 &4561409530597456479
+--- !u!114 &2920886834231670346
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,10 +119,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2070389774662387340}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef64d5b18ba117844ad960c3f3a2c5cf, type: 3}
+  m_Script: {fileID: 11500000, guid: 95bd9d0b15d74222b753e453fa3ea410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inputSystem: {fileID: 5705349860253402453}
-  _inputConfig: {fileID: 11400000, guid: 636679b1724d4c14cb6281425deba078, type: 2}
-  _movementConfig: {fileID: 11400000, guid: 2f7d21dbbc29d8c4e86ec896e51b0472, type: 2}
+  _inputSystem: {fileID: 5039312526688810673}
+  _inputConfig: {fileID: 11400000, guid: 1ec05401e58542c0bceef3f2f68d2555, type: 2}
+  _movementConfig: {fileID: 11400000, guid: 51d857343dc440b1b2e41c180f086435, type: 2}
   _projectileWeapon: {fileID: 11400000, guid: 62dac495f02303d47953e98612476824, type: 2}

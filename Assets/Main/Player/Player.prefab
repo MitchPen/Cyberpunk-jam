@@ -187,10 +187,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6173666994996316123}
-  - component: {fileID: 8674822165226675065}
+  - component: {fileID: 6460173962460475351}
   - component: {fileID: 6014257216330786056}
   - component: {fileID: 5824749839449848057}
-  - component: {fileID: 2576861566284293069}
+  - component: {fileID: 2993964857361356717}
   - component: {fileID: 7409811269090829559}
   - component: {fileID: 6139818878705512175}
   m_Layer: 9
@@ -221,7 +221,7 @@ Transform:
   - {fileID: 5549070161257195890}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8674822165226675065
+--- !u!114 &6460173962460475351
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -230,7 +230,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5648402441066651164}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25cb5211987f68b49bda7b1c0732f5fd, type: 3}
+  m_Script: {fileID: 11500000, guid: 1785194699124096b24c2d875e2b1855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _weaponSystem: {fileID: 5824749839449848057}
@@ -265,8 +265,8 @@ MonoBehaviour:
   _fpsCamera: {fileID: 0}
   _handPoint: {fileID: 0}
   _weaponShowPoint: {fileID: 0}
-  _weaponAnimator: {fileID: 2576861566284293069}
---- !u!114 &2576861566284293069
+  _weaponAnimator: {fileID: 2993964857361356717}
+--- !u!114 &2993964857361356717
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -275,12 +275,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5648402441066651164}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3524a19a87b6f1f489b16dd5700565a7, type: 3}
+  m_Script: {fileID: 11500000, guid: b73808075a024d45bcecd1ef9dc9f285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _ease: 2
-  _duration: 0.45
-  _handShiftValue: 0.0259
+  _duration: 0.7
+  _handShiftValue: 0.02
   _handShiftDuration: 2
 --- !u!54 &7409811269090829559
 Rigidbody:

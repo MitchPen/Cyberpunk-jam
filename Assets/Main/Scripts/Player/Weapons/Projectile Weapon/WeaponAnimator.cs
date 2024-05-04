@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Main.Scripts.Player.Weapons.Projectile_Weapon
 {
-    public class WeaponShowAnimationComponent : MonoBehaviour
+    public class WeaponAnimator : MonoBehaviour
     {
         [SerializeField] private Ease _ease;
         [SerializeField] [Range(0f,1f)] private float _duration;
