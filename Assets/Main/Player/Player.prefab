@@ -190,6 +190,8 @@ GameObject:
   - component: {fileID: 7409811269090829559}
   - component: {fileID: 6014257216330786056}
   - component: {fileID: 6139818878705512175}
+  - component: {fileID: 5824749839449848057}
+  - component: {fileID: 2576861566284293069}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -260,11 +262,11 @@ MonoBehaviour:
   _cameraHolder: {fileID: 4726105892826921156}
   _playerSurfaceHelperComponent: {fileID: 5813558191883898008}
   _rb: {fileID: 7409811269090829559}
-  _maxVelocity: 10
-  _velocityMultiplier: 9
+  _maxVelocity: 15
+  _velocityMultiplier: 12
   _jumpForce: 2
   _airMultiplier: 0.8
-  _gravity: -15
+  _gravity: -20
   _steepSlopesGravityMultiplier: 40
 --- !u!136 &6139818878705512175
 CapsuleCollider:
@@ -289,6 +291,37 @@ CapsuleCollider:
   m_Height: 0.9372883
   m_Direction: 1
   m_Center: {x: 0, y: 0.09406686, z: 0}
+--- !u!114 &5824749839449848057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5648402441066651164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dabf36cfab47e9468a9d4f671410b7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fpsCamera: {fileID: 0}
+  _handPoint: {fileID: 0}
+  _weaponShowPoint: {fileID: 0}
+  _showAnimator: {fileID: 2576861566284293069}
+  _testConfig: {fileID: 11400000, guid: 62dac495f02303d47953e98612476824, type: 2}
+--- !u!114 &2576861566284293069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5648402441066651164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3524a19a87b6f1f489b16dd5700565a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ease: 2
+  _duration: 0.45
 --- !u!1 &6714981111730730504
 GameObject:
   m_ObjectHideFlags: 0

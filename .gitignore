@@ -59,3 +59,6 @@ UserSettings/Layouts/default-2021.dwlt
 ProjectSettings/RiderScriptEditorPersistedState.asset~origin_Kovalev
 UserSettings/Layouts/default-2021.dwlt~origin_Kovalev
 /UserSettings/
+/Assets/Plugins/Zenject/Source/Zenject.csproj.meta
+/Assets/Plugins/Zenject/OptionalExtras/ReflectionBaking/Zenject-ReflectionBaking.csproj.meta
+/Assets/Plugins/Zenject/OptionalExtras/Signals/Zenject-Signals.csproj.meta
