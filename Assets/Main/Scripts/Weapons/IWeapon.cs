@@ -6,7 +6,7 @@ namespace Main.Scripts.Weapons
     public interface IWeapon
     {
         public bool Enable { get; set; }
-        public void Attack();
+        public void Shoot();
 
         public void Setup(WeaponData data);
 
@@ -34,8 +34,7 @@ namespace Main.Scripts.Weapons
     public enum WeaponType
     {
         Pistol,
-        Blade,
-        Rifle, 
+        Rifle,
         AutomaticRifle
     }
 }

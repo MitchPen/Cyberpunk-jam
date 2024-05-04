@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
-using Main.Scripts.Weapons.Melee;
+using DG.Tweening;
 using Main.Scripts.Weapons.Projectile;
 using Main.Scripts.Weapons.Projectile_Weapon;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Main.Scripts.Weapons
@@ -14,7 +12,7 @@ namespace Main.Scripts.Weapons
         [SerializeField] private Transform _handPoint;
         [SerializeField] private Transform _weaponShowPoint;
         [SerializeField] private WeaponShowAnimationComponent _showAnimator;
-        [SerializeField] private WeaponConfig _testConfig;
+        [SerializeField] private ProjectileWeaponConfig _testConfig;
         private List<IWeapon> _weaponOrder = new List<IWeapon>();
         private IWeapon _currentWeapon;
         private int _currentIndex;
@@ -24,14 +22,36 @@ namespace Main.Scripts.Weapons
             Initialize(_testConfig);
         }
 
-        public void Initialize(WeaponConfig weapons)
+        public void Initialize(ProjectileWeaponConfig weapons)
         {
             _showAnimator.Setup(_weaponShowPoint);
-            SetupRangeWeapons(weapons.ProjectileWeapons.WeaponSetups);
+            SetupWeapons(weapons.WeaponSetups);
             ChangeWeaponByIndex(0);
+            float yPos = _handPoint.localPosition.y;
+            AnimateHand(yPos);
         }
 
-        private void SetupRangeWeapons( IEnumerable<ProjectileWeaponSetup> weapons)
+        private void AnimateHand(float yPos)
+        {
+            _handPoint.DOLocalMoveY(yPos + 0.025f, 1f)
+                .SetEase(Ease.OutSine)
+                .OnComplete(() =>
+            {
+                _handPoint.DOLocalMoveY(yPos -  0.025f, 2f)
+                    .SetEase(Ease.InOutSine)
+                    .OnComplete(() =>
+                {
+                    _handPoint.DOLocalMoveY(yPos, 1f)
+                        .SetEase(Ease.InSine)
+                        .OnComplete(() =>
+                    {
+                        AnimateHand(yPos);
+                    });
+                });
+            });
+        }
+
+        private void SetupWeapons( IEnumerable<ProjectileWeaponSetup> weapons)
         {
             foreach (var item in weapons)
             {
@@ -50,7 +70,7 @@ namespace Main.Scripts.Weapons
             if (Input.GetKey(KeyCode.Mouse0))
             {
                 if (_currentWeapon == null) return;
-                _currentWeapon.Attack();
+                _currentWeapon.Shoot();
             }
 
             if(Input.mouseScrollDelta.y<0f)

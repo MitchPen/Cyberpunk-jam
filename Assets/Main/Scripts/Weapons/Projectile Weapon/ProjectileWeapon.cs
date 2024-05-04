@@ -25,7 +25,7 @@ namespace Main.Scripts.Weapons.Projectile_Weapon
         public void SetRangeWeaponRaycastPosition(Transform point) => _raycastPoint = point;
         public bool Enable { get; set; }
 
-        public void Attack()
+        public void Shoot()
         {
             if (AbleToShoot)
             {
