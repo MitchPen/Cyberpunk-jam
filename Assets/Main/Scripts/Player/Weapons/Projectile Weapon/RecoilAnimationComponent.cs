@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace Main.Scripts.Weapons.Projectile_Weapon
+namespace Main.Scripts.Player.Weapons.Projectile_Weapon
 {
     public class RecoilAnimationComponent : MonoBehaviour
     {

@@ -2,7 +2,7 @@ using Cysharp.Threading.Tasks;
 using Lean.Pool;
 using UnityEngine;
 
-namespace Main.Scripts.Weapons.Projectile
+namespace Main.Scripts.Player.Weapons.Projectile_Weapon
 {
     public class BaseProjectile : MonoBehaviour
     {

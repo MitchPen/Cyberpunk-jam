@@ -1,86 +1,72 @@
 using System.Collections.Generic;
 using DG.Tweening;
-using Main.Scripts.Weapons.Projectile;
-using Main.Scripts.Weapons.Projectile_Weapon;
+using Main.Scripts.InputSystem;
+using Main.Scripts.Player.Weapons.Projectile_Weapon;
 using UnityEngine;
 
-namespace Main.Scripts.Weapons
+namespace Main.Scripts.Player.Weapons
 {
     public class PlayerWeaponSystem : MonoBehaviour
     {
         [SerializeField] private Camera _fpsCamera;
         [SerializeField] private Transform _handPoint;
         [SerializeField] private Transform _weaponShowPoint;
-        [SerializeField] private WeaponShowAnimationComponent _showAnimator;
-        [SerializeField] private ProjectileWeaponConfig _testConfig;
+        [SerializeField] private WeaponShowAnimationComponent _weaponAnimator;
         private List<IWeapon> _weaponOrder = new List<IWeapon>();
         private IWeapon _currentWeapon;
         private int _currentIndex;
+        private Input.InputSystem _inputSystem;
 
-        void Start()
+        public void Initialize(ProjectileWeaponConfig weapons, Input.InputSystem inputSystem)
         {
-            Initialize(_testConfig);
-        }
-
-        public void Initialize(ProjectileWeaponConfig weapons)
-        {
-            _showAnimator.Setup(_weaponShowPoint);
+            _weaponAnimator.Setup(_weaponShowPoint, _handPoint);
+            _inputSystem = inputSystem;
             SetupWeapons(weapons.WeaponSetups);
             ChangeWeaponByIndex(0);
-            float yPos = _handPoint.localPosition.y;
-            AnimateHand(yPos);
+            _weaponAnimator.AnimateHand();
         }
 
-        private void AnimateHand(float yPos)
+        public void Enable()
         {
-            _handPoint.DOLocalMoveY(yPos + 0.025f, 1f)
-                .SetEase(Ease.OutSine)
-                .OnComplete(() =>
-            {
-                _handPoint.DOLocalMoveY(yPos -  0.025f, 2f)
-                    .SetEase(Ease.InOutSine)
-                    .OnComplete(() =>
-                {
-                    _handPoint.DOLocalMoveY(yPos, 1f)
-                        .SetEase(Ease.InSine)
-                        .OnComplete(() =>
-                    {
-                        AnimateHand(yPos);
-                    });
-                });
-            });
+            _inputSystem.SubscribeOnInputEvent(KeyEvents.SHOOT, Shoot);
+            _inputSystem.SubscribeOnInputEvent(KeyEvents.M_SCROLL_UP,
+                () => ChangeWeaponByDirection(WeaponChangeDirection.PREV));
+            _inputSystem.SubscribeOnInputEvent(KeyEvents.M_SCROLL_DOWN,
+                () => ChangeWeaponByDirection(WeaponChangeDirection.NEXT));
+            _inputSystem.SubscribeOnInputEvent(KeyEvents.PICK_FIRST_WEAPON, () => ChangeWeaponByIndex(0));
+            _inputSystem.SubscribeOnInputEvent(KeyEvents.PICK_SECOND_WEAPON, () => ChangeWeaponByIndex(1));
+            _inputSystem.SubscribeOnInputEvent(KeyEvents.PICK_THIRD_WEAPON, () => ChangeWeaponByIndex(2));
         }
 
-        private void SetupWeapons( IEnumerable<ProjectileWeaponSetup> weapons)
+        public void Disable()
+        {
+            _inputSystem.UnsubscribeFromInputEvent(KeyEvents.SHOOT, Shoot);
+            _inputSystem.ClearEventHandlerOn(KeyEvents.M_SCROLL_UP);
+            _inputSystem.ClearEventHandlerOn(KeyEvents.M_SCROLL_DOWN);
+            _inputSystem.ClearEventHandlerOn(KeyEvents.PICK_FIRST_WEAPON);
+            _inputSystem.ClearEventHandlerOn(KeyEvents.PICK_SECOND_WEAPON);
+            _inputSystem.ClearEventHandlerOn(KeyEvents.PICK_THIRD_WEAPON);
+        }
+
+        private void SetupWeapons(IEnumerable<ProjectileWeaponSetup> weapons)
         {
             foreach (var item in weapons)
             {
                 var newWeapon = Instantiate(item.Weapon.GetObject, _handPoint)
                     .GetComponent<IWeapon>();
                 newWeapon.GetObject.transform.localPosition = Vector3.zero;
-                newWeapon.Setup(item.weaponData);
-                newWeapon.SetRangeWeaponRaycastPosition(_fpsCamera.transform);
+                newWeapon.Setup(item.weaponData, _fpsCamera.transform);
                 newWeapon.Hide();
                 _weaponOrder.Add(newWeapon);
             }
         }
 
-        void Update()
+        private void Shoot()
         {
-            if (Input.GetKey(KeyCode.Mouse0))
-            {
-                if (_currentWeapon == null) return;
-                _currentWeapon.Shoot();
-            }
-
-            if(Input.mouseScrollDelta.y<0f)
-                ChangeWeaponByDirection(WeaponChangeDirection.NEXT);
-            
-            if(Input.mouseScrollDelta.y>0f)
-                ChangeWeaponByDirection(WeaponChangeDirection.PREV);
+            if (_currentWeapon == null) return;
+            _currentWeapon.Shoot();
         }
-        
-        
+
         private void ChangeWeapon()
         {
             if (_currentWeapon != null)
@@ -88,16 +74,13 @@ namespace Main.Scripts.Weapons
                 if (_currentWeapon == _weaponOrder[_currentIndex]) return;
 
                 _currentWeapon.Hide();
-                _currentWeapon.Enable = false;
             }
 
             _currentWeapon = _weaponOrder[_currentIndex];
             _currentWeapon.Enable = false;
             _currentWeapon.Show();
-            _showAnimator.PlayShowAnimation(_currentWeapon.GetObject.transform, () =>
-            {
-                _currentWeapon.Enable = true;
-            });
+            _weaponAnimator.PlayShowAnimation(_currentWeapon.GetObject.transform,
+                () => { _currentWeapon.Enable = true; });
         }
 
         private void ChangeWeaponByIndex(int index)

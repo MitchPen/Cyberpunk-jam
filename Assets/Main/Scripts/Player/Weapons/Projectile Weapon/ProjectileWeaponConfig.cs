@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Main.Scripts.Weapons.Projectile_Weapon;
 using UnityEngine;
 
-namespace Main.Scripts.Weapons.Projectile
+namespace Main.Scripts.Player.Weapons.Projectile_Weapon
 {
-    [CreateAssetMenu(fileName = "ProjectileWeapon_CFG", menuName = "Configuration/Weapons/New ProjectileWeaponConfig")]
+    [CreateAssetMenu(fileName = "ProjectileWeapon_CFG", menuName = "Configuration/Player/Create new WeaponConfig")]
     public class ProjectileWeaponConfig : ScriptableObject
     {
         public List<ProjectileWeaponSetup> WeaponSetups = new List<ProjectileWeaponSetup>();
@@ -14,7 +13,6 @@ namespace Main.Scripts.Weapons.Projectile
     [Serializable]
     public class ProjectileWeaponSetup
     {
-        public WeaponType Type;
         public ProjectileWeapon Weapon;
         public ProjectileWeaponData weaponData;
     }

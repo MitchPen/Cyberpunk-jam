@@ -4,16 +4,7 @@ namespace Main.Scripts.Level
 {
     public class LevelLauncher : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
+        [SerializeField] private Transform _spartPoint;
         
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
     }
 }

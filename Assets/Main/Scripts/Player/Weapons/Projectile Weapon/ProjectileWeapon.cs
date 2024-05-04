@@ -1,11 +1,11 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using Lean.Pool;
-using Main.Scripts.Weapons.Projectile;
 using UnityEngine;
 
-namespace Main.Scripts.Weapons.Projectile_Weapon
+namespace Main.Scripts.Player.Weapons.Projectile_Weapon
 {
     public class ProjectileWeapon :MonoBehaviour, IWeapon
     {
@@ -20,9 +20,7 @@ namespace Main.Scripts.Weapons.Projectile_Weapon
         private bool _onCoolDown;
         private int _shootingDelay;
         private bool AbleToShoot => Enable && _onCoolDown == false;
-       
         public GameObject GetObject => this.gameObject;
-        public void SetRangeWeaponRaycastPosition(Transform point) => _raycastPoint = point;
         public bool Enable { get; set; }
 
         public void Shoot()
@@ -59,13 +57,14 @@ namespace Main.Scripts.Weapons.Projectile_Weapon
             _onCoolDown = false;
         }
 
-        public void Setup(WeaponData data)
+        public void Setup(WeaponData data, Transform point)
         {
             _weaponData = (ProjectileWeaponData)data;
             _recoilAnimator.Setup(transform.localPosition);
             _shootingDelay = Mathf.CeilToInt((1f / _weaponData.attackRate) * 1000);
             _onCoolDown = false;
             _audioPlayer.clip = _weaponData.shotSound;
+            _raycastPoint = point;
         }
 
         public void Show()
@@ -89,6 +88,9 @@ namespace Main.Scripts.Weapons.Projectile_Weapon
                     _ctx.Cancel();
                 _ctx.Dispose();
             }
+
+            Enable = false;
+            transform.DOKill(false);
             gameObject.SetActive(false);
         }
     }
