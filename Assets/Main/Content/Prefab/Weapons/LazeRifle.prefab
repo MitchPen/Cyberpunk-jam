@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3962092040889067963}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: ShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 2792991707955097896}
   - component: {fileID: 6216715460040588338}
   - component: {fileID: 5335995680930702484}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: pCylinder36 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 6279214833361722449}
   - component: {fileID: 2891295138156464782}
   - component: {fileID: 8607736774583900502}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: polySurface10 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: 6122344080777357138}
   - component: {fileID: 7514042583498842683}
   - component: {fileID: 7942275534008591813}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: LazeRifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -376,7 +376,7 @@ GameObject:
   - component: {fileID: 1120124478577483872}
   - component: {fileID: 5215435694844494834}
   - component: {fileID: 1160883572496608438}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: pCylinder36 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -508,6 +508,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7609145667655734672, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
+      propertyPath: m_Layer
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -5900937498473367167, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
+      propertyPath: m_Layer
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -5558582530265374940, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
+      propertyPath: m_Layer
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: -5151140489956213509, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.023192998
@@ -515,6 +527,10 @@ PrefabInstance:
     - target: {fileID: -5151140489956213509, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.652
+      objectReference: {fileID: 0}
+    - target: {fileID: -5005729293348403368, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
+      propertyPath: m_Layer
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: -3326007047050515468, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -540,9 +556,65 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 180
       objectReference: {fileID: 0}
+    - target: {fileID: -2981451829997229230, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
+      propertyPath: m_Layer
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -2880053224498396751, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
+      propertyPath: m_Layer
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -2695952133490140319, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
+      propertyPath: m_Layer
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -2543592781798138506, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
+      propertyPath: m_Layer
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -966204126061902051, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
+      propertyPath: m_Layer
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -869225442964119039, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
+      propertyPath: m_Layer
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -655515190766560270, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
+      propertyPath: m_Layer
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 190473969821311646, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
+      propertyPath: m_Layer
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
       propertyPath: m_Name
       value: cyberpunk pisol
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
+      propertyPath: m_Layer
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2907451307247571941, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
+      propertyPath: m_Layer
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3062994989121274944, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
+      propertyPath: m_Layer
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3564783574603935192, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
+      propertyPath: m_Layer
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3672548509089925874, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
+      propertyPath: m_Layer
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4985344043960018771, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
+      propertyPath: m_Layer
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7510089802060981170, guid: b32846a9a25fa2d499ceb9d4e568e90a, type: 3}
       propertyPath: m_LocalPosition.z
