@@ -8,18 +8,29 @@ namespace Main.Scripts.Input
 {
     public class InputSystem : MonoBehaviour
     {
-        [Inject] private InputConfig _inputConfig;
-        public const string MouseXAxis = "Mouse X";
-        public const string MouseYAxis = "Mouse Y";
+        public event Action<float> OnMouseSensitivityChanged;
+        private InputConfig _inputConfig;
         public const string Horizontal = "Horizontal";
         public const string Vertical = "Vertical";
         private Vector2 _keyboardAxis = Vector2.zero;
-        private Vector2 _mouseAxis = Vector2.zero;
         private ButtonPair[] _mouseButton;
         private ButtonPair[] _keyboardButtons;
         private bool _enable;
         public Vector2 GetGeyboardAxisRaw() => _keyboardAxis;
-        public Vector2 GetMouseAxisRaw() => _mouseAxis;
+        public float MouseSensitivity { get; private set; }
+        public void UpdateMouseSensitivity(float value)
+        {
+            MouseSensitivity = value;
+            OnMouseSensitivityChanged?.Invoke(MouseSensitivity);
+        }
+
+        [Inject]
+        public void Init(InputConfig inputConfig)
+        {
+            _inputConfig = inputConfig;
+            _keyboardButtons = _inputConfig.KeyboardButtonPairs.ToArray();
+            MouseSensitivity = _inputConfig.MouseSensitivity;
+        }
 
         private Dictionary<KeyEvents, List<Action>> _inputActionTable =
             new Dictionary<KeyEvents, List<Action>>();
@@ -28,7 +39,6 @@ namespace Main.Scripts.Input
         {
             _enable = true;
             _keyboardAxis = Vector2.zero;
-            _mouseAxis = Vector2.zero;
             UnityEngine.Input.ResetInputAxes();
         }
 
@@ -36,13 +46,7 @@ namespace Main.Scripts.Input
         {
             _enable = false;
             _keyboardAxis = Vector2.zero;
-            _mouseAxis = Vector2.zero;
             UnityEngine.Input.ResetInputAxes();
-        }
-
-        private void Awake()
-        {
-            _keyboardButtons = _inputConfig.KeyboardButtonPairs.ToArray();
         }
 
         private void Update()
@@ -63,10 +67,7 @@ namespace Main.Scripts.Input
         private void HandleMouse()
         {
             if (_enable == false) return;
-            _mouseAxis.x = UnityEngine.Input.GetAxisRaw(MouseXAxis);
-            _mouseAxis.y = UnityEngine.Input.GetAxisRaw(MouseYAxis);
-            _mouseAxis *= _inputConfig.MouseSensitivity;
-            
+
             switch (UnityEngine.Input.mouseScrollDelta.y)
             {
                 case < 0f:

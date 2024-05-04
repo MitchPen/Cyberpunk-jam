@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MouseSensitivity: 1
   KeyboardButtonPairs:
-  - InteractionType: 1
+  - InteractionType: 2
     EventType: 0
     KeyType: 32
   - InteractionType: 2

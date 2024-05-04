@@ -1,5 +1,7 @@
 using Cinemachine;
+using Main.Scripts.Input;
 using UnityEngine;
+using Zenject;
 
 namespace Main.Player.Camera
 {
@@ -9,11 +11,26 @@ namespace Main.Player.Camera
         
         [SerializeField] private CinemachineVirtualCamera _vCam;
         [SerializeField] private UnityEngine.Camera _camera;
-        
+        [SerializeField] private float ms;
+        private InputSystem _inputSystem;
+        private CinemachinePOV _cmp;
+
+        [Inject]
+        public void Initializa(InputSystem inputSystem) => _inputSystem = inputSystem;
+      
         private void Awake()
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            _cmp = _vCam.GetCinemachineComponent<CinemachinePOV>();
+            UpdateCameraSpeed(_inputSystem.MouseSensitivity);
+            _inputSystem.OnMouseSensitivityChanged += UpdateCameraSpeed;
+        }
+
+        private void UpdateCameraSpeed(float speed)
+        {
+            _cmp.m_VerticalAxis.m_MaxSpeed = speed;
+            _cmp.m_HorizontalAxis.m_MaxSpeed = speed;
         }
         
         #if UNITY_EDITOR
