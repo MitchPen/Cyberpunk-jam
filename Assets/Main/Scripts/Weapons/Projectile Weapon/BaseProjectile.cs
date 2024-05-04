@@ -1,8 +1,6 @@
-using System;
 using Cysharp.Threading.Tasks;
 using Lean.Pool;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Main.Scripts.Weapons.Projectile
 {
@@ -47,7 +45,6 @@ namespace Main.Scripts.Weapons.Projectile
             transform.position =startPosition.position ;
             _rigidbody.velocity = _direction.normalized * _speed;
         }
-        
 
         public void Disable()
         {

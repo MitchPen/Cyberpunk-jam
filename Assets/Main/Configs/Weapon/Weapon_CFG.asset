@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a49f3f36b39f3546bf9bc1af9848d18, type: 3}
   m_Name: Weapon_CFG
   m_EditorClassIdentifier: 
-  ProjectileWeapons: {fileID: 11400000, guid: 61b89a061869fc341a7847703a5cbe1f, type: 2}
+  ProjectileWeapons: {fileID: 11400000, guid: 62dac495f02303d47953e98612476824, type: 2}
+  MeleeWeapons: {fileID: 11400000, guid: 179a9125353ddca449bf0d4efd952b4a, type: 2}

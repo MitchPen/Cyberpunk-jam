@@ -1,3 +1,4 @@
+using Main.Scripts.Weapons.Melee;
 using Main.Scripts.Weapons.Projectile;
 using UnityEngine;
 
@@ -7,5 +8,6 @@ namespace Main.Scripts.Weapons
     public class WeaponConfig : ScriptableObject
     {
         public ProjectileWeaponConfig ProjectileWeapons;
+        public MeleeWeaponConfig MeleeWeapons;
     }
 }

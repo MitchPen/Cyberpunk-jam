@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 249007750018182199}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0064, y: 0.101, z: 0.766}
+  m_LocalPosition: {x: 0.0064, y: 0.101, z: 0.564}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -40,9 +40,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4510517220321880944}
-  - component: {fileID: 43807548709985588}
+  - component: {fileID: 6122344080777357138}
+  - component: {fileID: 7514042583498842683}
   - component: {fileID: 7942275534008591813}
-  - component: {fileID: 7578917118033839989}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 3364425054051212766}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.62, y: -0.57, z: 1.28}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -67,7 +67,7 @@ Transform:
   - {fileID: 1447880394176416931}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &43807548709985588
+--- !u!114 &6122344080777357138
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -76,16 +76,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 3364425054051212766}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f677a0784f9422a43a687a0c37fba838, type: 3}
+  m_Script: {fileID: 11500000, guid: 73f3d8cd897d6be459d24569f03b67a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shootPoint: {fileID: 3962092040889067963}
+  _shootingPoint: {fileID: 3962092040889067963}
   _raycastIgnore:
     serializedVersion: 2
     m_Bits: 311
   _shootParticles: {fileID: 0}
-  _gunAnimation: {fileID: 7578917118033839989}
+  _recoilAnimator: {fileID: 7514042583498842683}
   _audioPlayer: {fileID: 7942275534008591813}
+--- !u!114 &7514042583498842683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3364425054051212766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6519697b6d01ce04f8afa04cec21a93c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _recoilEase: 2
+  _returnEase: 3
+  _recoilBalanceRation: 0.2
+  _recoilImpact: 0.15
+  _recoilDuration: 0.3
 --- !u!82 &7942275534008591813
 AudioSource:
   m_ObjectHideFlags: 0
@@ -182,23 +199,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &7578917118033839989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3364425054051212766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f918a83cdcf2cb4bbcd0dcc585f8ce8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _recoilEase: 2
-  _returnEase: 3
-  _animationBalanceRation: 0.3
-  _recoilValue: 0.15
-  _animationDuration: 0.25
 --- !u!1001 &1413390248898865992
 PrefabInstance:
   m_ObjectHideFlags: 0
