@@ -41,7 +41,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _CellsColor: {r: 0.11857959, g: 0.018511917, b: 0.18867922, a: 1}
+    - _CellsColor: {r: 0.003676507, g: 0.002731743, b: 0.008568125, a: 1}
     - _LinesColor: {r: 0, g: 0.37896425, b: 0.50980395, a: 1}
     - _Offset: {r: 0, g: 0.06, b: 0, a: 0}
     - _Tiling: {r: 5, g: 5, b: 0, a: 0}
