@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using Content.Audio;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Lean.Pool;
@@ -13,7 +14,6 @@ namespace Main.Scripts.Player.Weapons.Projectile_Weapon
         [SerializeField] protected LayerMask _raycastIgnore;
         [SerializeField] protected ParticleSystem _shootParticles;
         [SerializeField] private RecoilAnimationComponent _recoilAnimator;
-        [SerializeField] protected AudioSource _audioPlayer;
         private ProjectileWeaponData _weaponData;
         private CancellationTokenSource _ctx;
         private Transform _raycastPoint;
@@ -30,7 +30,7 @@ namespace Main.Scripts.Player.Weapons.Projectile_Weapon
                 var bullet = LeanPool.Spawn(_weaponData.projectilePrefab);
                 bullet.Setup(CalcBulletDirection(), _weaponData.bulletSpeed, _weaponData.damage);
                 _recoilAnimator.Play(true);
-                _audioPlayer.Play();
+                SoundController.Instance?.PlayClip(_weaponData.shotSound, customVolume: 1f);
                 bullet.Enable(_shootingPoint);
                 ApplyCooldown();
             }
@@ -63,7 +63,6 @@ namespace Main.Scripts.Player.Weapons.Projectile_Weapon
             _recoilAnimator.Setup(transform.localPosition);
             _shootingDelay = Mathf.CeilToInt((1f / _weaponData.attackRate) * 1000);
             _onCoolDown = false;
-            _audioPlayer.clip = _weaponData.shotSound;
             _raycastPoint = point;
         }
 

@@ -46,6 +46,17 @@ namespace Content.Audio
             audioSource.Play();
         }
         
+        public void PlayClip(AudioClip audioClip, float customVolume = 0f, float customPitch = 1f)
+        {
+            var audioSource = LeanPool.Spawn(_audioSourcePrefab);
+            
+            audioSource.clip = audioClip;
+            audioSource.volume = customVolume!=0f? customVolume: _soundsVolume;
+            audioSource.pitch = customPitch;
+            LeanPool.Despawn(audioSource, audioSource.clip.length);
+            audioSource.Play();
+        }
+        
         public void PlayDefaultMusic(float customVolume = 0f)
         {
             _mainMusicSource.Stop();
