@@ -46,8 +46,8 @@ Material:
     - _Width: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Direction: {r: 0, g: 0.15, b: 0, a: 0}
-    - _Tilling: {r: 0.58, g: 0.14, b: 0, a: 0}
+    - _Direction: {r: 0, g: 0.05, b: 0, a: 0}
+    - _Tilling: {r: 1.37, g: 0.14, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &4431176331278219796
 MonoBehaviour:
