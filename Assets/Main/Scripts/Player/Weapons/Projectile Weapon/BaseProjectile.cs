@@ -12,6 +12,7 @@ namespace Main.Scripts.Player.Weapons.Projectile_Weapon
         private float _damage;
         private float _speed;
         private Vector3 _direction;
+        public float Damage => _damage;
         public void Setup(Vector3 direction, float speed, float damage)
         {
             gameObject.SetActive(false);

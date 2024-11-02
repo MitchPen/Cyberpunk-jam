@@ -15,8 +15,8 @@ GameObject:
   - component: {fileID: 8618641739540217946}
   - component: {fileID: 7289599730574433932}
   m_Layer: 16
-  m_Name: AutomaticRifle
-  m_TagString: Untagged
+  m_Name: AutomaticRifleProjectile
+  m_TagString: PlayerProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
